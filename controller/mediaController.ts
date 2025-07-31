@@ -1,18 +1,13 @@
 // controller/uploadController.ts
 import { Request, Response } from "express";
-import AWS from "aws-sdk";
 import { config } from "dotenv";
+import s3 from "../utils/s3Client";
 config();
-const s3 = new AWS.S3({
-  region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-});
 
 export const uploadImageToS3 = async (req: Request, res: Response) => {
   console.log("in upload image");
 
-  const file = (await req.file) as Express.MulterS3.File;
+  const file = req.file as Express.MulterS3.File;
 
   console.log("file", file);
   if (!file) {
@@ -32,13 +27,13 @@ export const uploadImageToS3 = async (req: Request, res: Response) => {
     const signedUrl = s3.getSignedUrl("getObject", {
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: data.Key,
-      Expires: 60 * 5, 
+      Expires: 60 * 5,
     });
     const imageData = {
       fileName: file.originalname,
       mimeType: file.mimetype,
       size: file.size,
-      url: data.Location, 
+      url: data.Location,
       bucket: data.Bucket,
       key: data.Key,
       etag: data.ETag,

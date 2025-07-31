@@ -1,4 +1,4 @@
-import multer, { StorageEngine, FileFilterCallback } from "multer";
+import multer, { FileFilterCallback } from "multer";
 import { Request } from "express";
 
 const storage = multer.memoryStorage();
@@ -7,7 +7,14 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: FileFilterCallback
 ) => {
-  if (file.mimetype === "image/jpeg" || file.mimetype === "image/png") {
+  console.log("file", file);
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "application/pdf" ||
+    file.mimetype ===
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+  ) {
     cb(null, true);
   } else {
     cb(null, false);
