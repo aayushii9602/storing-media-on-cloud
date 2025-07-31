@@ -23,7 +23,6 @@ export const uploadImageToS3 = async (req: Request, res: Response) => {
       ContentType: file.mimetype,
     };
     const data = await s3.upload(params).promise();
-    await s3.upload(params).promise();
     const signedUrl = s3.getSignedUrl("getObject", {
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: data.Key,
