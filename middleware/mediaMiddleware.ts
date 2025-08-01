@@ -7,7 +7,6 @@ const fileFilter = (
   file: Express.Multer.File,
   cb: FileFilterCallback
 ) => {
-  console.log("file", file);
   if (
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/png" ||
